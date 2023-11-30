@@ -53,6 +53,24 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+
+  api_test:
+    image: 'api:latest'
+    container_name: 'api_test'
+    build:
+      context: '.'
+      dockerfile: './Dockerfile'
+    ports:
+      - '5000:5000'
+    networks:
+      - 'api'
+    environment:
+      DATABASE_USER: "root"
+      DATABASE_PASSWORD: "2210"
+      DATABASE_HOST: 'database'
+    depends_on:
+      mysql:
+        condition: service_healthy
       mysql_test:
         condition: service_healthy
 
