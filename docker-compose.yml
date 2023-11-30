@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  mysql:
+    image: 'mysql:8'
+    container_name: 'database'
+    environment:
+      MYSQL_DATABASE: 'api'
+      MYSQL_ROOT_PASSWORD: '2210'
+    networks:
+      - 'api'
+    ports:
+      - '3306:3306'
+    volumes:
+      - database:/var/lib/mysql
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 1s
+      retries: 100
+
+  mysql_test:
+    image: 'mysql:8'
+    container_name: 'database_test'
+    environment:
+      MYSQL_DATABASE: 'api'
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_TCP_PORT: 3307
+    networks:
+      - 'api'
+    ports:
+      - '3307:3307'
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 1s
+      retries: 100
+
+  api:
+    image: 'api:latest'
+    container_name: 'api'
+    build:
+      context: '.'
+      dockerfile: './Dockerfile'
+    volumes:
+      - './src/:/app/src'
+    ports:
+      - '80:5000'
+    networks:
+      - 'api'
+    environment:
+      DATABASE_USER: "root"
+      DATABASE_PASSWORD: "2210"
+      DATABASE_HOST: 'database'
+    depends_on:
+      mysql:
+        condition: service_healthy
+      mysql_test:
+        condition: service_healthy
+
+volumes:
+  database:
+
+networks:
+  api:
