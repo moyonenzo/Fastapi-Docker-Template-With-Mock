@@ -20,7 +20,9 @@ def get_categories(db: Session = Depends(get_db)):
 
 @router.get("/{category_id}")
 def get_category(category_id: int, db: Session = Depends(get_db)):
-    category = db.query(models.Categories).filter(models.Categories.id == category_id).first()
+    category = (
+        db.query(models.Categories).filter(models.Categories.id == category_id).first()
+    )
     if category is None:
         raise HTTPException(status_code=404)
     return category
@@ -28,7 +30,9 @@ def get_category(category_id: int, db: Session = Depends(get_db)):
 
 @router.post("/", status_code=201)
 def create_category(body: CreateCategoryModel, db: Session = Depends(get_db)):
-    category = db.query(models.Categories).filter(models.Categories.label == body.label).all()
+    category = (
+        db.query(models.Categories).filter(models.Categories.label == body.label).all()
+    )
     if len(category) > 0:
         raise HTTPException(status_code=400)
     db.add(models.Categories(label=body.label))
@@ -37,7 +41,9 @@ def create_category(body: CreateCategoryModel, db: Session = Depends(get_db)):
 
 @router.delete("/{category_id}", status_code=204)
 def create_category(category_id: int, db: Session = Depends(get_db)):
-    category = db.query(models.Categories).filter(models.Categories.id == category_id).first()
+    category = (
+        db.query(models.Categories).filter(models.Categories.id == category_id).first()
+    )
     if category is None:
         raise HTTPException(status_code=404)
 

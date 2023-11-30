@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 import os
 from dotenv import load_dotenv
+
 load_dotenv()
 
 SQLALCHEMY_DATABASE_URL = f"mysql://{os.getenv('DATABASE_USER')}:{os.getenv('DATABASE_PASSWORD')}@database:3306/api"
