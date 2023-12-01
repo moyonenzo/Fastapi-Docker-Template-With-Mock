@@ -9,7 +9,7 @@ class Dataset:
     def __init__(self):
         self.session: Session = Session(bind=engine)
 
-    def create_categories(self, label: str) -> models.Categories:
+    def create_category(self, label: str) -> models.Categories:
         category = models.Categories(label=label)
         self.session.add(category)
         return category
@@ -18,7 +18,7 @@ class Dataset:
 @pytest.fixture
 def dataset():
     ds = Dataset()
-    ds.category_1 = ds.create_categories("first_category")
+    ds.category_1 = ds.create_category("first_category")
 
     ds.session.commit()
     return ds
