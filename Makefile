@@ -9,7 +9,7 @@ down:
 
 test:
 	docker compose up -d api_test && \
-	docker compose exec -it api_test pytest -v -s && \
+	docker compose exec -it api_test pytest -v && \
 	docker compose down
 
 lint:
@@ -17,3 +17,7 @@ lint:
 
 format:
 	docker run --rm --volume ./:/src --workdir /src pyfound/black:latest_release black .
+
+shell:
+	docker compose up -d api_test && \
+	docker compose exec -it api_test bash

@@ -3,5 +3,5 @@ sqlalchemy
 uvicorn
 python-dotenv
 mysql
-pytest
+pytest==7.1.2
 httpx
