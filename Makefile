@@ -21,3 +21,6 @@ format:
 shell:
 	docker compose up -d api_test && \
 	docker compose exec -it api_test bash
+
+logs:
+	docker-compose logs -f api
