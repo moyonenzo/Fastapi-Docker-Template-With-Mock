@@ -9,7 +9,7 @@ down:
 
 test:
 	docker compose up -d api_test && \
-	docker compose exec -it api_test pytest -v && \
+	docker compose exec -it api_test pytest -v src/tests/$(test) && \
 	docker compose down
 
 lint:

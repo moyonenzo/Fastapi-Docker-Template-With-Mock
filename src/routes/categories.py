@@ -1,9 +1,9 @@
-from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
 import src.models as models
+import src.utils.exceptions as exceptions
 from src.database import get_db
 
 router = APIRouter()
@@ -24,7 +24,7 @@ def get_category(category_id: int, db: Session = Depends(get_db)):
         db.query(models.Categories).filter(models.Categories.id == category_id).first()
     )
     if category is None:
-        raise HTTPException(status_code=404)
+        raise exceptions.notFound()
     return category
 
 
@@ -34,7 +34,7 @@ def create_category(body: CreateCategoryModel, db: Session = Depends(get_db)):
         db.query(models.Categories).filter(models.Categories.label == body.label).all()
     )
     if len(category) > 0:
-        raise HTTPException(status_code=400)
+        raise exceptions.notFound()
     db.add(models.Categories(label=body.label))
     db.commit()
 
@@ -45,7 +45,7 @@ def delete_category(category_id: int, db: Session = Depends(get_db)):
         db.query(models.Categories).filter(models.Categories.id == category_id).first()
     )
     if category is None:
-        raise HTTPException(status_code=404)
+        raise exceptions.notFound()
 
     db.delete(category)
     db.commit()
