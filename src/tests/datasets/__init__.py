@@ -14,11 +14,17 @@ class Dataset:
         self.session.add(category)
         return category
 
+    def create_user(self, firstname: str, lastname: str, password: str) -> models.Users:
+        user = models.Users(firstname=firstname, lastname=lastname, password=password)
+        self.session.add(user)
+        return user
+
 
 @pytest.fixture
 def dataset():
     ds = Dataset()
     ds.category_1 = ds.create_category("first_category")
+    ds.user_1 = ds.create_user("Alain", "Terieur", "0000")
 
     ds.session.commit()
     return ds
