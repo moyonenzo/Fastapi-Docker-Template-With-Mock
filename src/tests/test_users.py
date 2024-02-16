@@ -30,15 +30,13 @@ def test_get_user(dataset):
 
 def test_create_user(dataset):
     url = "/users"
-    data = {
-        "firstname": "Alex",
-        "lastname": "Terieur",
-        "password": "XXXX"
-    }
+    data = {"firstname": "Alex", "lastname": "Terieur", "password": "XXXX"}
 
     response = client.post(url, json=data)
     result = dataset.session.scalars(
-        select(Users).where(Users.firstname == data["firstname"]).where(Users.lastname == data["lastname"])
+        select(Users)
+        .where(Users.firstname == data["firstname"])
+        .where(Users.lastname == data["lastname"])
     ).first()
     assert response.status_code == 201
     assert result is not None
