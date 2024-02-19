@@ -28,7 +28,6 @@ def get_users(request: Request, db: Session = Depends(get_db)):
 @auth_required
 def get_user(user_id: int, request: Request, db: Session = Depends(get_db)):
     user = db.query(models.Users).filter(models.Users.id == user_id).first()
-    print(user.login)
     if user is None:
         raise exceptions.notFound()
     return user

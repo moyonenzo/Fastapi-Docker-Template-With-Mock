@@ -1,10 +1,9 @@
-fastapi~=0.83.0
-sqlalchemy~=2.0.6
+fastapi
+sqlalchemy
 uvicorn
-python-dotenv~=1.0.0
+python-dotenv
 mysql
 pytest==7.1.2
 httpx
-pydantic~=1.10.6
-passlib[bcrypt]
+pydantic
 python-jose[cryptography]
