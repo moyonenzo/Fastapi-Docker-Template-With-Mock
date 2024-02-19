@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, cast
 from src.database import Base
 
 
@@ -15,8 +15,5 @@ class Users(Base):
     id = Column(Integer, primary_key=True, index=True)
     lastname = Column(String(255))
     firstname = Column(String(255))
+    mail = Column(String(255))
     password = Column(String(255))
-
-    @property
-    def login(self):
-        return f"{self.lastname[::4]}_{self.firstname[0]}"

@@ -50,6 +50,7 @@ services:
       DATABASE_USER: "root"
       DATABASE_PASSWORD: "2210"
       DATABASE_HOST: 'database'
+      SECRET_KEY: '0e592f6a7048e7ad18e979035778fd4a663d8b8604e001a80c2c87a037e78f39'
     depends_on:
       mysql:
         condition: service_healthy
@@ -70,6 +71,7 @@ services:
       DATABASE_USER: "root"
       DATABASE_PASSWORD: "2210"
       DATABASE_HOST: 'database'
+      SECRET_KEY: '0e592f6a7048e7ad18e979035778fd4a663d8b8604e001a80c2c87a037e78f39'
     depends_on:
       mysql:
         condition: service_healthy

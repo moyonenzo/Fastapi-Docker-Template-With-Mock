@@ -14,6 +14,7 @@ router = APIRouter()
 class CreateUserModel(BaseModel):
     firstname: str
     lastname: str
+    mail: str
     password: str
 
 
@@ -27,6 +28,7 @@ def get_users(request: Request, db: Session = Depends(get_db)):
 @auth_required
 def get_user(user_id: int, request: Request, db: Session = Depends(get_db)):
     user = db.query(models.Users).filter(models.Users.id == user_id).first()
+    print(user.login)
     if user is None:
         raise exceptions.notFound()
     return user
@@ -37,7 +39,10 @@ def get_user(user_id: int, request: Request, db: Session = Depends(get_db)):
 def create_user(body: CreateUserModel, request: Request, db: Session = Depends(get_db)):
     db.add(
         models.Users(
-            firstname=body.firstname, lastname=body.lastname, password=body.password
+            firstname=body.firstname,
+            lastname=body.lastname,
+            password=body.password,
+            mail=body.mail,
         )
     )
     db.commit()
