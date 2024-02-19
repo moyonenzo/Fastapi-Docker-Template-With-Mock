@@ -42,7 +42,7 @@ def test_create_user(dataset):
     data = {
         "firstname": "Alex",
         "lastname": "Terieur",
-        "mail": "terieur_a@pytest.io",
+        "mail": "terieur_c@pytest.io",
         "password": "XXXX",
     }
 

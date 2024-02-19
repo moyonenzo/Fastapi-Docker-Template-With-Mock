@@ -17,9 +17,11 @@ def test_get_identity(dataset):
 
     with logged_as(client, dataset.user_1):
         response = client.get(url)
-        result = dataset.session.scalars(select(Users).where(Users.id == dataset.user_1.id)).first()
+        result = dataset.session.scalars(
+            select(Users).where(Users.id == dataset.user_1.id)
+        ).first()
         assert response.status_code == 200
-        assert response.json()['id'] == result.id == dataset.user_1.id
+        assert response.json()["id"] == result.id == dataset.user_1.id
 
 
 def test_authenticate(dataset):

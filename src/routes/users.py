@@ -36,6 +36,11 @@ def get_user(user_id: int, request: Request, db: Session = Depends(get_db)):
 
 @router.post("/", status_code=201)
 def create_user(body: CreateUserModel, request: Request, db: Session = Depends(get_db)):
+    user = db.query(models.Users).filter(models.Users.mail == body.mail).all()
+
+    if len(user) > 0:
+        raise exceptions.conflict()
+
     db.add(
         models.Users(
             firstname=body.firstname,
