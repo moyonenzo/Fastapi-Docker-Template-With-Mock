@@ -62,7 +62,7 @@ def authenticate(
     )
 
 
-@router.delete("/")
+@router.delete("/", status_code=204)
 @auth_required
 def logout(request: Request, response: Response):
     response.delete_cookie("access_token")

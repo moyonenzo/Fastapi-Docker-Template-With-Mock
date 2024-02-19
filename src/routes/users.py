@@ -35,7 +35,6 @@ def get_user(user_id: int, request: Request, db: Session = Depends(get_db)):
 
 
 @router.post("/", status_code=201)
-@auth_required
 def create_user(body: CreateUserModel, request: Request, db: Session = Depends(get_db)):
     db.add(
         models.Users(

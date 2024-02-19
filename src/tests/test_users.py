@@ -50,17 +50,13 @@ def test_create_user(dataset):
     assert response.status_code == 422
 
     response = client.post(url, json=data)
-    assert response.status_code == 403
-
-    with logged_as(client, dataset.user_1):
-        response = client.post(url, json=data)
-        result = dataset.session.scalars(
-            select(Users)
-            .where(Users.firstname == data["firstname"])
-            .where(Users.lastname == data["lastname"])
-        ).first()
-        assert response.status_code == 201
-        assert result is not None
+    result = dataset.session.scalars(
+        select(Users)
+        .where(Users.firstname == data["firstname"])
+        .where(Users.lastname == data["lastname"])
+    ).first()
+    assert response.status_code == 201
+    assert result is not None
 
 
 def test_delete_user(dataset):
