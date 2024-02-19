@@ -1,5 +1,7 @@
 from fastapi.testclient import TestClient
 from jose import jwt
+from passlib.context import CryptContext
+
 import src.models as models
 import src.utils.exceptions as exception
 
@@ -7,6 +9,7 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 def create_access_token(user: models.Users):
@@ -21,6 +24,14 @@ def retrieve_access_token(token: str):
         return jwt.decode(token, os.getenv("SECRET_KEY"), algorithms=["HS256"])
     except jwt.JWTError:
         raise exception.permissionDenied()
+
+
+def verify_password(password, hashed):
+    return pwd_context.verify(password, hashed)
+
+
+def hash_password(password):
+    return pwd_context.hash(password)
 
 
 class logged_as(object):

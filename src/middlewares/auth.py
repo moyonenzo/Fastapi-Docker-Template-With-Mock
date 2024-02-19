@@ -13,7 +13,7 @@ def auth_required(handler):
             if token is None:
                 raise exception.permissionDenied()
 
-            decoded = retrieve_access_token(token)
+            retrieve_access_token(token)
         except KeyError:
             raise exception.internalServerError(
                 "Missing request parameter in route declaration"

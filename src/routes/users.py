@@ -4,6 +4,7 @@ from pydantic import BaseModel
 
 import src.models as models
 import src.utils.exceptions as exceptions
+from src.utils.webtokens import hash_password
 from src.database import get_db
 
 from src.middlewares.auth import auth_required
@@ -40,7 +41,7 @@ def create_user(body: CreateUserModel, request: Request, db: Session = Depends(g
         models.Users(
             firstname=body.firstname,
             lastname=body.lastname,
-            password=body.password,
+            password=hash_password(body.password),
             mail=body.mail,
         )
     )

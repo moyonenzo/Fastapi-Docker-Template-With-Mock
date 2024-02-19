@@ -3,6 +3,7 @@ import src.models as models
 
 from sqlalchemy.orm import Session
 from src.tests import engine
+from src.utils.webtokens import hash_password
 
 
 class Dataset:
@@ -18,7 +19,10 @@ class Dataset:
         self, firstname: str, lastname: str, mail: str, password: str
     ) -> models.Users:
         user = models.Users(
-            firstname=firstname, lastname=lastname, mail=mail, password=password
+            firstname=firstname,
+            lastname=lastname,
+            mail=mail,
+            password=hash_password(password),
         )
         self.session.add(user)
         return user
