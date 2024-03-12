@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 import src.models as models
 import src.utils.exceptions as exceptions
@@ -39,7 +39,7 @@ def identity(request: Request, db: Session = Depends(get_db)) -> IdentityRespons
     if user is None:
         raise exceptions.notFound()
 
-    return IdentityResponseModel(**user.__dict__)
+    return IdentityResponseModel.model_validate(user, from_attributes=True)
 
 
 @router.post("/")
