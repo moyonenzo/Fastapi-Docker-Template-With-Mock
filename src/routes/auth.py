@@ -29,8 +29,10 @@ class IdentityResponseModel(BaseModel):
 
 
 @router.get("/")
-@auth_required
-def identity(request: Request, db: Session = Depends(get_db)) -> IdentityResponseModel:
+@auth_required()
+async def identity(
+    request: Request, db: Session = Depends(get_db)
+) -> IdentityResponseModel:
     decoded = retrieve_access_token(request.cookies.get("access_token"))
     if decoded is None:
         raise exceptions.internalServerError()
@@ -43,7 +45,7 @@ def identity(request: Request, db: Session = Depends(get_db)) -> IdentityRespons
 
 
 @router.post("/")
-def authenticate(
+async def authenticate(
     body: AuthenticateModel,
     request: Request,
     response: Response,
@@ -63,6 +65,6 @@ def authenticate(
 
 
 @router.delete("/", status_code=204)
-@auth_required
-def logout(request: Request, response: Response):
+@auth_required()
+async def logout(request: Request, response: Response):
     response.delete_cookie("access_token")
